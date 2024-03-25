@@ -14,7 +14,7 @@ public class Main {
         List<Doctors> doctors = doctorsRepo.getList();
 
         for (Patients patient : patients) {
-            Pr.printPatientsDoctors(patient); // Print information about client-stylist
+            Pr.printPatientsDoctors(patient);
 
         }
     }
