@@ -13,25 +13,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoctorsRepository implements DoctorRepository {
+import static javax.management.remote.JMXConnectorFactory.connect;
+
+public class DoctorsRepository implements IDoctorRepository {
     public EntityManager em =
             Persistence.createEntityManagerFactory("TEST").createEntityManager();
 @Override
-public Integer Insert(Doctors doctors) throws SQLException {
-        String str = String.format("INSERT INTO doctors (surname, name, ot) VALUES (%s, '%s', '%s')",
-        doctors.getSurname(),
-        doctors.getName(),
-        doctors.getOt());
-        Statement stmt = this.getStatement(this.connectToDB());
-        stmt.execute(str);
-        stmt.close();
-        try (ResultSet rs = this.getStatement(this.connectToDB()).executeQuery("SELECT MAX(id) FROM Stylists")) {
-        while (rs.next()) {
-        return rs.getInt(1);
-        }
-        return -1;
-        }
-        }
+public void Insert(Doctors doctors) throws SQLException {
+        String str = String.format("INSERT INTO doctors (surname, name, ot) VALUES (?, ?, ?)");
+        try (Connection conn = connectToDB();
+             PreparedStatement statement = conn.prepareStatement(str, Statement.RETURN_GENERATED_KEYS)) {
+                statement.setString(1, doctors.getName());
+                statement.setString(2, doctors.getSurname());
+                statement.setString(3, doctors.getOt());
+                statement.executeUpdate();
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) { if (generatedKeys.next()) {
+                        doctors.setId(generatedKeys.getInt(1));  } else {
+                        throw new SQLException("Failed to get generated id for client.");   }
+                }        }
+}
 
 @Override
 public void Delete(Doctors doctors) throws SQLException {

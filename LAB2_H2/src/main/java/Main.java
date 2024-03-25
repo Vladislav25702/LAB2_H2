@@ -13,6 +13,7 @@ public class Main {
         List<Patients> patients = patientsRepo.getList();
         List<Doctors> doctors = doctorsRepo.getList();
 
+
         for (Patients patient : patients) {
             Pr.printPatientsDoctors(patient);
 

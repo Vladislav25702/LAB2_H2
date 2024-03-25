@@ -20,8 +20,7 @@ public class Doctors {
     @Column(name = "ot", length = 255)
     private String ot;
 
-    public Doctors(Integer id, String name,String surname,String ot) {
-        this.id = id;
+    public Doctors( String name,String surname,String ot) {
         this.name = name;
         this.surname = surname;
         this.ot = ot;

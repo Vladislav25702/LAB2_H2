@@ -25,8 +25,7 @@ public class Patients {
     private Doctors idDoctors;
 
 
-    public Patients(Integer id, String name, String surname, String ot, Doctors idDoctors) {
-        this.id = id;
+    public Patients( String name, String surname, String ot, Doctors idDoctors) {
         this.name = name;
         this.surname = surname;
         this.ot = ot;
